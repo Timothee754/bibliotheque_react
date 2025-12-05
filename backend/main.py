@@ -1,16 +1,22 @@
-# This is a sample Python script.
+import sqlalchemy
+from sqlalchemy.ext.declarative import declarative_base
+engine = sqlalchemy.create_engine("mariadb+mariadbconnector://production:123456+Aze@172.16.35.114:3306/bibliotheque")
 
-# Press Ctrl+F5 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+Base = declarative_base()
+class authors(Base):
+    __tablename__ = 'authors'
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    name = sqlalchemy.Column(sqlalchemy.VARCHAR(255), nullable=False)
+    birth_year = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
+Session = sqlalchemy.orm.sessionmaker()
+Session.configure(bind=engine)
+session = Session()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press F9 to toggle the breakpoint.
+employees = session.query(authors).all()
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    for author in employees:
+        print(f"ID: {author.id}, Name: {author.name}, Birth Year: {author.birth_year}")
