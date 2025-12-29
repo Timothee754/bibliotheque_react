@@ -1,7 +1,7 @@
-import sqlalchemy
-from sqlalchemy.ext.declarative import declarative_base
-engine = sqlalchemy.create_engine("mariadb+mariadbconnector://production:123456+Aze@172.16.35.114:3306/bibliotheque")
+from connection.maria_db_connection import DatabaseEngine
 
+db = mariadb_connection = DatabaseEngine()
+engine = db.get_engine()
 Base = declarative_base()
 class authors(Base):
     __tablename__ = 'authors'
