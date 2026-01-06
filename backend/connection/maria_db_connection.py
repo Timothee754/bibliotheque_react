@@ -1,10 +1,12 @@
 import sqlalchemy
+from sqlalchemy.ext.declarative import declarative_base
 
-class DatabaseEngine:
-    def __init__(self):
-        self._engine = sqlalchemy.create_engine(
-            "mariadb+mariadbconnector://production:123456+Aze@172.16.35.114:3306/bibliotheque"
-        )
+import sqlalchemy
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-    def get_engine(self):
-        return self._engine
+Base = declarative_base()
+
+engine = sqlalchemy.create_engine(
+    "mariadb+mariadbconnector://production:123456+Aze@172.16.35.114:3306/bibliotheque"
+)
+SessionLocal = sessionmaker(bind=engine)

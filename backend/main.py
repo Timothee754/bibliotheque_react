@@ -1,22 +1,8 @@
-from connection.maria_db_connection import DatabaseEngine
-
-db = mariadb_connection = DatabaseEngine()
-engine = db.get_engine()
-Base = declarative_base()
-class authors(Base):
-    __tablename__ = 'authors'
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    name = sqlalchemy.Column(sqlalchemy.VARCHAR(255), nullable=False)
-    birth_year = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-
-Session = sqlalchemy.orm.sessionmaker()
-Session.configure(bind=engine)
-session = Session()
-
-employees = session.query(authors).all()
+import sqlalchemy
+from sqlalchemy.orm import declarative_base
+from sql_requests.authors_request import AuthorsRequest
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    for author in employees:
-        print(f"ID: {author.id}, Name: {author.name}, Birth Year: {author.birth_year}")
+    instance = AuthorsRequest()
+    authors = instance.get_author_by_id(1)
